@@ -18,22 +18,16 @@
 
 import argparse
 import asyncio
-import atexit
 import collections
-import functools
 import importlib
 import json
 import logging
 import os
 import platform
 import random
-import signal
 import socket
 import sqlite3
 import sys
-import time
-
-import requests
 from requests import get
 from telethon import TelegramClient, events
 from telethon.errors.rpcerrorlist import (
