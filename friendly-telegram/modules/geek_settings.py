@@ -242,7 +242,8 @@ class GeekSettingsMod(loader.Module):
             self.strings("inline_settings"), reply_markup=self._get_settings_markup()
         )
 
-    async def inline__close(self, call: CallbackQuery) -> None:
+    @staticmethod
+    async def inline__close(call: CallbackQuery) -> None:
         await call.delete()
 
     async def inline__update(
