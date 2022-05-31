@@ -24,6 +24,8 @@ import io
 import logging
 import os
 import shlex
+import random
+import string
 
 import telethon
 from telethon.tl.custom.message import Message
@@ -37,6 +39,8 @@ from telethon.tl.types import (
 )
 
 from . import __main__
+from . import main
+import git
 
 
 def get_platform_name():
@@ -112,6 +116,32 @@ def get_args_split_by(message, sep):
 def get_chat_id(message):
     """Get the chat ID, but without -100 if its a channel"""
     return telethon.utils.resolve_id(message.chat_id)[0]
+
+
+def rand(length):
+    """Generate a random string of given length"""
+    return "".join(
+        [random.choice(string.ascii_letters + string.digits) for _ in range(length)]
+    )
+
+
+def get_version_raw():
+    """Get the version of the userbot"""
+    return ".".join(list(map(str, list(main.__version__))))
+
+
+def get_git_info():
+    try:
+        repo = git.Repo()
+        ver = repo.heads[0].commit.hexsha
+    except Exception:
+        ver = ""
+    return [
+        ver,
+        f"https://github.com/GeekTG/Friendly-Telegram/commit/{ver}"
+        if ver
+        else "",
+    ]
 
 
 def get_entity_id(entity):
@@ -257,7 +287,7 @@ async def answer(message, response, **kwargs):
                 await message.client.send_file(
                     message.peer_id,
                     file,
-                    caption="<b>📤 Command output seems to be too long, so it's sent in file.</b>", # noqa: E501
+                    caption="<b>📤 Command output seems to be too long, so it's sent in file.</b>",  # noqa: E501
                 ),
             ]
 
