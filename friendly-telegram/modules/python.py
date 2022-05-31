@@ -67,7 +67,8 @@ class PythonMod(loader.Module):
         """Alias for .e command"""
         await self.ecmd(message)
 
-    async def inline__close(self, call: CallbackQuery) -> None:
+    @staticmethod
+    async def inline__close(call: CallbackQuery) -> None:
         await call.answer("Operation cancelled")
         await call.delete()
 
